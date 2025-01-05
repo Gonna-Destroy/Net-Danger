@@ -8,12 +8,12 @@ colors = [Fore.RED, Fore.GREEN, Fore.BLUE, Fore.YELLOW, Fore.CYAN, Fore.MAGENTA]
 def get_number():
     while True:
         try:
-            rows = int(input('Введите кол-во строк: '))
+            rows = int(input(f'{Fore.GREEN}Введите кол-во строк: '))
             if rows < 30 and rows > 0:
                 return rows
-            else: print('Ох, такую ёлку не утащить.(1-29)')
+            else: print(f'{Fore.YELLOW}Ох, такую ёлку не утащить.(1-29)')
         except ValueError:
-            print('Ну хватит баловаться!')
+            print(f'{Fore.RED}Ну хватит баловаться!')
 
 rows = get_number()
 
@@ -23,7 +23,7 @@ def print_rows(self, rows):
             print(' ', end='')
         self -= 2
         for i in row:
-            print(i, end='')
+            print(f'{random.choice(colors)}{i}', end='')
         print('')
 
 def create_fir(countRows):
@@ -47,7 +47,8 @@ def create_fir(countRows):
     for i in range(self - 3):
         print(' ', end='')
     for i in range(3):
-        print(Fore.LIGHTBLACK_EX, random.choice(symbols), end='')
+        print(f"{Fore.LIGHTBLACK_EX}{random.choice(symbols)}", end='')
+
 
 if __name__ == '__main__':
     create_fir(rows)

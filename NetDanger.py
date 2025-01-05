@@ -46,4 +46,5 @@ def main():
         get_passwords(profiles)
         print(COMPLIENCE)
 
-main()
+if __name__ == "__main__":
+    main()
