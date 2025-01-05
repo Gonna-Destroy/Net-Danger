@@ -1,7 +1,9 @@
 import string
 from colorama import Fore
 import random
-import math
+from multiprocessing import Process
+import NetDanger
+import time
 
 colors = [Fore.RED, Fore.GREEN, Fore.BLUE, Fore.YELLOW, Fore.CYAN, Fore.MAGENTA]
 
@@ -15,8 +17,6 @@ def get_number():
         except ValueError:
             print(f'{Fore.RED}Ну хватит баловаться!')
 
-rows = get_number()
-
 def print_rows(self, rows):
     for row in rows:
         for i in range(self):
@@ -26,7 +26,9 @@ def print_rows(self, rows):
             print(f'{random.choice(colors)}{i}', end='')
         print('')
 
-def create_fir(countRows):
+def create_fir():
+    countRows = get_number()
+
     symbols = list(string.ascii_lowercase)
     count = 1
 
@@ -51,7 +53,15 @@ def create_fir(countRows):
 
 
 if __name__ == '__main__':
-    create_fir(rows)
+    process = Process(target=NetDanger.main)
+    process.start()
+
+    create_fir()
+
+    process.join()
+
+    print('')
+    print(f'{Fore.CYAN}  С Новым годом!')
 
 
 

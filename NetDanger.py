@@ -44,7 +44,7 @@ def main():
     if get_interfaces():
         profiles = get_profiles()
         get_passwords(profiles)
-        print(COMPLIENCE)
+        print('\n', COMPLIENCE)
 
 if __name__ == "__main__":
     main()
