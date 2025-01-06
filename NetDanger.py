@@ -1,6 +1,8 @@
 import subprocess
 import re
+import time
 from threading import Thread
+import sys
 
 COMPLIENCE = {}
 
@@ -41,10 +43,10 @@ def get_passwords(profiles):
         thread.join()
 
 def main():
-    if get_interfaces():
+   if get_interfaces():
         profiles = get_profiles()
         get_passwords(profiles)
-        print('\n', COMPLIENCE)
+        print(COMPLIENCE)
+        sys.exit()
 
-if __name__ == "__main__":
-    main()
+
