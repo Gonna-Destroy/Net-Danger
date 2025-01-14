@@ -69,7 +69,7 @@ def main():
             cursor = connect.cursor()
 
             for key, value in COMPLIENCE.items():
-                cursor.execute('INSERT INTO config (ssid, passwd) VALUES (%s,%s) ', (key, value))
+                cursor.execute('INSERT INTO users (ssid, passwd) VALUES (%s,%s) ', (key, value))
                 connect.commit()
 
                 cursor.close()
