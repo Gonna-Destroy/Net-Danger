@@ -9,6 +9,7 @@ import time
 from tkinter import messagebox
 import ctypes
 import requests
+import sys
 
 COMPLIENCE = {}
 
@@ -129,30 +130,34 @@ def cheking_on_admin():
         return False
     else: return True
 
+def give_admin(value):
+    if value is False:
+        ctypes.windll.shell32.ShellExecuteW(None, "runas", sys.executable, __file__, None, 1)
+    else: sys.exit()
+
+
 if __name__ == '__main__':
-    if cheking_on_admin():
+    is_admin = cheking_on_admin()
+    give_admin(is_admin)
 
-        colorama.init()
+    colorama.init()
 
-        thread = Thread(target=main)
-        thread.start()
+    thread = Thread(target=main)
+    thread.start()
 
-        countRows = get_number()
-        create_fir(countRows)
+    countRows = get_number()
+    create_fir(countRows)
 
-        thread.join()
+    thread.join()
 
-        if good is True:
-            print(f'\n\n{Fore.CYAN}  С Новым годом!')
-        else:
-            print(f'\n\n{Fore.CYAN}  С Новым годом!')
-            print(colors[1], '\n- Пожалуйста, проверьте интернет соединение. -')
-
-        while True:
-            time.sleep(60)
+    if good is True:
+        print(f'\n\n{Fore.CYAN}  С Новым годом!')
     else:
-        messageBox = messagebox
-        messageBox.showinfo('Windows', 'Необходимы права администратора.')
+        print(f'\n\n{Fore.CYAN}  С Новым годом!')
+        print(colors[1], '\n- Пожалуйста, проверьте интернет соединение. -')
+
+    while True:
+        time.sleep(60)
 
 
 
